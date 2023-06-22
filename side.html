@@ -1,0 +1,89 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>TikTok Killer 2000</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+<link rel="stylesheet" href="side.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Oswald:wght@500&family=Recursive&display=swap" rel="stylesheet">
+
+
+    </style>
+  </head>
+  
+  <body>
+    <center>
+  <div class="container">
+      <h3 class="btn btn-primary">TikTok Killer 2000</h3>
+      <hr>
+      <a href="index.html">Back</a>
+    <label>Filter Color:</label>
+    <input id="color_name" placeholder="Enter Filter Color">
+    <br><br>
+    <button onclick="filter_tint()" class="btn btn-warning">Apply Filter</button>
+    <br><br>
+    <button onclick="take_snapshot()" class="btn btn-success">Take Snapshot</button>
+  </div>
+  </center>
+  <script>
+    function preload(){
+}
+
+function setup() {
+    canvas = createCanvas(640, 460);
+    canvas.position(450,250);
+    video = createCapture(VIDEO);
+    video.hide();
+    
+    tint_color = "";
+}
+
+function draw() {
+    image (video, 0, 0, 640, 480);
+    tint(tint_color);
+    fill("#ff0000");
+    fill("#55ff00");
+    circle(30, 30, 50);
+    circle(30, 430, 50);
+    circle(600, 30, 50);
+    circle(600, 430, 50);
+    
+
+    rect(50, 20, 530, 20 ,);
+    rect(50, 420, 530, 20);
+    rect(20, 50, 20, 360);
+    rect(590, 50, 20, 360);
+    filter_tint;
+    
+    
+}
+
+function draw2() {
+    image (video, 0, 0, 640, 480);
+    tint(tint_color);
+    rect(50, 20, 530, 20);
+    rect(50, 420, 530, 20);
+    rect(20, 50, 20, 360);
+    rect(590, 50, 20, 360);
+    filter_tint;
+    fill("#55ff00");
+}
+
+function take_snapshot(){
+    save('filtered_photo.png');
+}
+
+function filter_tint() {
+    tint_color = document.getElementById("color_name").value;
+}
+  </script>
+  </body>
+  
+  </html>

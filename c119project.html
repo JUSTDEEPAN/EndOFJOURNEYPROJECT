@@ -1,0 +1,147 @@
+ 
+<html>
+    <head>
+      <title>Emotion To Emoji</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+      <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+  
+      <link rel="stylesheet" type="text/css" href="c119project.css">
+    </head>
+  
+    <body>
+    <div class="container">
+    
+      <center>
+        <h3 class="btn btn-warning heading">GESTURE TO EMOJI WEBSITE
+          <br>
+          <span>&#128522;</span>
+          <span>&#128512;</span>
+          <span>&#128532;</span>
+          <span>&#128546;</span>
+          <span>&#128545;</span>
+        </h3>
+  
+        <br><br>
+         <a href="index.html">Back</a>
+        <p style="font-size: 22px;">Take your selfie of gesture to know its meaning.
+          <br>
+          <b style="color: black">This model is trained on the following-</b>
+          <br>
+          <h3 class="btn btn-warning heading">
+            <br>
+            <span>&#9995;</span>
+            <span>&#9996;</span>
+            <span>&#9994;</span>
+            <span>&#128070;</span>
+            <span>&#128076;</span>
+          </h3>
+        </p>
+  
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <label>Webcan View - </label>
+          <div id="camera"></div>
+          <br><br>
+  <button onclick="take_snapshot();" class="btn btn-warning">Capture Image</button>
+        </div>
+  
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <label>Prediction -</label>
+          <p class="gesture_name" id="result_gesture_name"></p>
+          <p class="gesture" id="update_gesture"></p>
+          <br><br>
+          
+        </div>
+  
+        
+  
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <label>Snapshot -</label>
+          <div id="result"></div>
+          <br><br>
+          <button onclick="check();" class="btn btn-success">Predict Emotion</button>
+        </div>
+      </center>
+  
+    </div>
+  
+  <script>
+    Webcam.set({
+    width:350,
+    height:300,
+    image_format: 'png',
+    png_quality:90
+});
+
+camera = document.getElementById("camera");
+
+Webcam.attach( '#camera' );
+
+function take_snapshot(){
+    Webcam.snap(function(data_uri) {
+        document.getElementById("result").innerHTML = '<img id="captured_image" src="'+data_uri+'"/>';
+    });
+}
+
+console.log('ml5 version:', ml5.version);
+classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/vQtmftIql/model.json', modelLoaded);
+
+function modelLoaded() {
+    console.log('Model Loaded!!!!')
+}
+
+function check() {
+    img = document.getElementById('captured_image');
+    classifier.classify(img, gotResult);
+}
+
+function speak() {
+    var synth = window.speechSynthesis;
+    speak_data_1 = "The prediction is" + prediction_1;
+    var utterThis = new SpeechSynthesisUtterance(speak_data_1);
+    synth.speak(utterThis);
+}
+
+function gotResult(error, results) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log(results);
+        console.log(results[0].label);
+        document.getElementById("result_gesture_name").innerHTML = results[0].label;
+        prediction_1 = results[0].label;
+        speak();
+        if(results[0].label == "Paper")
+        {
+            document.getElementById("update_gesture").innerHTML = "&#9995;";
+        }
+        if(results[0].label == "Scissor")
+        {
+            document.getElementById("update_gesture").innerHTML = "&#9996;";
+        }
+        if(results[0].label == "Rock")
+        {
+            document.getElementById("update_gesture").innerHTML = "&#9994;";
+        }
+        if(results[0].label == "One")
+        {
+            document.getElementById("update_gesture").innerHTML = "&#9757;";
+        }
+        if(results[0].label == "Peace")
+        {
+            document.getElementById("update_gesture").innerHTML = "&#129304;";
+        }
+        
+    }
+}    
+  </script>
+  
+    </body>
+  </html>
+  
+   
+

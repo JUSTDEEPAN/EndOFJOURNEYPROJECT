@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>C85</title>
+<link rel="stylesheet" href="c94.css">
+<script src="fabric (4).js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="body_background">
+	<center>
+		<h2 class="btn-primary">MINECRAFT</h2>
+		<a href="index.html" class="btn btn-danger">Back</a>
+		<div id="head_info" class="btn-danger">
+			<h3>Current Width  = <span id="current_width">30</span></h3>
+			<h3>Current Height  = <span id="current_height">30</span></h3>
+		</div>
+		<br>
+		<br>
+		<div id="head_info" class="btn-danger">
+			<h3>How To Play: use arrow keys to move player.Use w, g, l, t, r, y, d, u, and c to put blocks. Use shift + m to decrease size and Use shift + p to increase size. Have fun!!!</h3
+		</div>
+
+		<canvas width="1000" height="600" id="myCanvas"></canvas>
+
+	</center>
+	<script>
+		var canvas = new fabric.Canvas('myCanvas');
+		canvas.center();
+
+player_x = 10;
+player_y = 10;
+
+block_image_width = 30;
+block_image_height = 30;
+
+var player_object= "";
+var block_image_object= "";
+
+function player_update()
+{
+	fabric.Image.fromURL("player.png", function(Img) {
+	player_object = Img;
+
+	player_object.scaleToWidth(150);
+	player_object.scaleToHeight(140);
+	player_object.set({
+	top:player_y,
+	left:player_x
+	});
+	canvas.add(player_object);
+
+	});
+}
+
+function new_image(get_image)
+{
+	fabric.Image.fromURL(get_image, function(Img) {
+	block_image_object = Img;
+
+	block_image_object.scaleToWidth(block_image_width);
+	block_image_object.scaleToHeight(block_image_height);
+	block_image_object.set({
+	top:player_y,
+	left:player_x
+	});
+	canvas.add(block_image_object);
+
+	});
+
+}
+
+window.addEventListener("keydown", my_keydown);
+
+function my_keydown(e)
+{
+keyPressed = e.keyCode;
+console.log(keyPressed);
+if(e.shiftKey == true && keyPressed == '80')
+{
+	console.log("p and shift pressed together");
+	block_image_width = block_image_width + 10;
+	block_image_height = block_image_height + 10;
+	document.getElementById("current_width").innerHTML = block_image_width;
+	document.getElementById("current_height").innerHTML = block_image_height;	
+}
+if(e.shiftKey && keyPressed == '77')
+{
+	console.log("m and shift pressed together");
+	block_image_width = block_image_width - 10;
+	block_image_height = block_image_height - 10;
+	document.getElementById("current_width").innerHTML = block_image_width;
+	document.getElementById("current_height").innerHTML = block_image_height;
+}
+
+	if(keyPressed == '38')
+	{
+		up();
+		console.log("up");
+	}
+	if(keyPressed == '40')
+	{
+		down();
+		console.log("down");
+	}
+	if(keyPressed == '37')
+	{
+		left();
+		console.log("left");
+	}
+	if(keyPressed == '39')
+	{
+		right();
+		console.log("right");
+	}
+	if(keyPressed == '87')
+	{
+		new_image('brick wall.jpg'); 
+		console.log("w");
+	}
+	if(keyPressed == '71')
+	{
+		new_image('grass block.png'); 
+		console.log("g");
+	}
+	if(keyPressed == '76')
+	{
+		new_image('grass (savannah).png'); 
+		console.log("l");
+	}
+	if(keyPressed == '84')
+	{
+		new_image('oak log.jpg'); 
+		console.log("t");
+	}
+	if(keyPressed == '82')
+	{
+		new_image('netherrack.jpg'); 
+		console.log("r");
+	}
+	if(keyPressed == '89')
+	{
+		new_image('yellow.png'); 
+		console.log("y");
+	}
+	if(keyPressed == '68')
+	{
+		new_image('grass.png'); 
+		console.log("d");
+	}
+	if(keyPressed == '85')
+	{
+		new_image('glowstone.png'); 
+		console.log("u");
+	}
+	if(keyPressed == '67')
+	{
+		new_image('stone.jpg'); 
+		console.log("c");
+	}
+	
+}
+//Complete the code for the the "up" function
+function up()
+{
+	if(player_y >=0)
+	{
+		player_y = player_y - block_image_height;
+		console.log("block image height = " + block_image_height);
+		console.log("When Up arrow key is pressed, X =  " + player_x + " , Y = "+player_y);
+		canvas.remove(player_object);
+		player_update();
+	}
+}
+//Complete the code for the the "down" function
+
+function down()
+{
+	if(player_y <=500)
+	{
+		player_y = player_y + block_image_height                      ;
+		console.log("block image height = " +   block_image_height);
+		console.log("When Down arrow key is pressed, X =  " + player_x + " , Y = "+player_y);
+		canvas.remove(player_object);
+		player_update();
+	}
+}
+//Complete the code for the the "left" fucntion
+
+function left()
+{
+	if(player_x >0)
+	{
+		player_x = player_x - block_image_width                    ;
+		console.log("block image width = " +  block_image_width              );
+		console.log("When Left arrow key is pressed, X =  " + player_x + " , Y = "+player_y);
+		canvas.remove(player_object);
+		player_update();
+	}
+}
+//Complete the code for the the "right" fucntion
+
+function right()
+{
+	if(player_x <=850     )
+	{
+		player_x =    player_x + block_image_width                   ;
+		console.log("block image width = " +block_image_width                    );
+		console.log("When Right arrow key is pressed, X =  " + player_x + " , Y = "+player_y);
+		canvas.remove(player_object);
+		player_update();
+	}
+}
+	</script>
+</body>
+</html>

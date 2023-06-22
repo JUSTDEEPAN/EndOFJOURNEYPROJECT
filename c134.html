@@ -1,0 +1,85 @@
+<html>
+<head>
+  <title>Realtime Drawing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+  <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="c134.css">
+</head>
+
+<body>
+<center>
+  <h3 class="btn btn-info heading">Changing width, height and postion of a square in Realtime
+    <br>
+    <span class="note">NOTE - Get your left and right wrist <b>closer 
+      to reduce the size</b> of the square and to <b> the size of 
+      the square keep your left and right wrist far from each other.</b> 
+      <b>Move your nose to move the square</b></span>
+      <br>
+      <a href="index.html">Back</a>
+    <br>
+
+  </h3>
+</center>
+
+<div class="copy_right_footer">
+  Developed By -  T.Deepan
+</div>
+
+<script>
+  noseY = 0;
+noseX = 0;
+difference = 0;
+rightWristX = 0;
+leftWristX = 0;
+
+function preload(){
+}
+
+function setup() {
+    video = createCapture(VIDEO);
+    video.size(550,500);
+
+    canvas = createCanvas(550,550);
+    canvas.position(560, 100);
+
+    poseNet = ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
+}
+
+function gotPoses(results) {
+    if(results.length > 0)
+    {
+      console.log(results);
+      noseX = results[0].pose.nose.x;
+      noseY = results[0].pose.nose.y;
+      console.log("noseX = " + noseX + "noseY = "  + noseY);
+
+      rightWristX = results[0].pose.rightWrist.x;
+      leftWristX = results[0].pose.leftWrist.x;
+      difference = leftWristX - rightWristX;
+      difference = floor(leftWristX - rightWristX);
+      
+      console.log("leftWristX = " + leftWristX + "rightWristX = " + rightWristX + "difference = " +  difference);
+    }
+}
+
+function modelLoaded() {
+    console.log('PoseNet Is Initialized');
+}
+
+function draw() {
+    background('#357a07');
+    fill('#03ff18');
+    stroke('#ff0303');
+    square(noseX, noseY, difference);
+    square(noseX, noseY, 30);
+}
+</script>
+</body>
+</html>
